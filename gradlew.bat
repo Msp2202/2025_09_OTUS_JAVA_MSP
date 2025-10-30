@@ -1,107 +1,94 @@
-import io.spring.gradle.dependencymanagement.dsl.DependencyManagementExtension
-import name.remal.gradle_plugins.sonarlint.SonarLintExtension
-import org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
-import org.gradle.plugins.ide.idea.model.IdeaLanguageLevel
+@rem
+@rem Copyright 2015 the original author or authors.
+@rem
+@rem Licensed under the Apache License, Version 2.0 (the "License");
+@rem you may not use this file except in compliance with the License.
+@rem You may obtain a copy of the License at
+@rem
+@rem      https://www.apache.org/licenses/LICENSE-2.0
+@rem
+@rem Unless required by applicable law or agreed to in writing, software
+@rem distributed under the License is distributed on an "AS IS" BASIS,
+@rem WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+@rem See the License for the specific language governing permissions and
+@rem limitations under the License.
+@rem
+@rem SPDX-License-Identifier: Apache-2.0
+@rem
 
-plugins {
-    id("fr.brouillard.oss.gradle.jgitver")
-    id("io.spring.dependency-management")
-    id("org.springframework.boot") apply false
-    id("name.remal.sonarlint") apply false
-    id("com.diffplug.spotless") apply false
-}
+@if "%DEBUG%"=="" @echo off
+@rem ##########################################################################
+@rem
+@rem  Gradle startup script for Windows
+@rem
+@rem ##########################################################################
 
-allprojects {
-    group = "ru.otus"
+@rem Set local scope for the variables with windows NT shell
+if "%OS%"=="Windows_NT" setlocal
 
-    repositories {
-        mavenLocal()
-        mavenCentral()
-    }
+set DIRNAME=%~dp0
+if "%DIRNAME%"=="" set DIRNAME=.
+@rem This is normally unused
+set APP_BASE_NAME=%~n0
+set APP_HOME=%DIRNAME%
 
-    val testcontainersBom: String by project
-    val protobufBom: String by project
-    val guava: String by project
-    val jmh: String by project
+@rem Resolve any "." and ".." in APP_HOME to make it shorter.
+for %%i in ("%APP_HOME%") do set APP_HOME=%%~fi
 
-    apply(plugin = "io.spring.dependency-management")
-    dependencyManagement {
-        dependencies {
-            imports {
-                mavenBom(BOM_COORDINATES)
-                mavenBom("org.testcontainers:testcontainers-bom:$testcontainersBom")
-                mavenBom("com.google.protobuf:protobuf-bom:$protobufBom")
-            }
-            dependency("com.google.guava:guava:$guava")
-            dependency("org.openjdk.jmh:jmh-core:$jmh")
-            dependency("org.openjdk.jmh:jmh-generator-annprocess:$jmh")
-        }
-    }
+@rem Add default JVM options here. You can also use JAVA_OPTS and GRADLE_OPTS to pass JVM options to this script.
+set DEFAULT_JVM_OPTS="-Xmx64m" "-Xms64m"
 
-    configurations.all {
-        resolutionStrategy {
-            failOnVersionConflict()
+@rem Find java.exe
+if defined JAVA_HOME goto findJavaFromJavaHome
 
-            force("javax.servlet:servlet-api:2.5")
-            force("commons-logging:commons-logging:1.1.1")
-            force("commons-lang:commons-lang:2.5")
-            force("org.codehaus.jackson:jackson-core-asl:1.8.8")
-            force("org.codehaus.jackson:jackson-mapper-asl:1.8.8")
-            force("commons-io:commons-io:2.18.0")
-        }
-    }
-}
+set JAVA_EXE=java.exe
+%JAVA_EXE% -version >NUL 2>&1
+if %ERRORLEVEL% equ 0 goto execute
 
-subprojects {
-    plugins.apply(JavaPlugin::class.java)
-    extensions.configure<JavaPluginExtension> {
-        sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.VERSION_21
-    }
+echo. 1>&2
+echo ERROR: JAVA_HOME is not set and no 'java' command could be found in your PATH. 1>&2
+echo. 1>&2
+echo Please set the JAVA_HOME variable in your environment to match the 1>&2
+echo location of your Java installation. 1>&2
 
-    tasks.withType<JavaCompile> {
-        options.encoding = "UTF-8"
-        options.compilerArgs.addAll(listOf("-parameters", "-Xlint:all,-serial,-processing"))
+goto fail
 
-        dependsOn("spotlessApply")
-    }
-    apply<name.remal.gradle_plugins.sonarlint.SonarLintPlugin>()
-    apply<com.diffplug.gradle.spotless.SpotlessPlugin>()
-    configure<com.diffplug.gradle.spotless.SpotlessExtension> {
-        java {
-            palantirJavaFormat("2.63.0")
-        }
-    }
+:findJavaFromJavaHome
+set JAVA_HOME=%JAVA_HOME:"=%
+set JAVA_EXE=%JAVA_HOME%/bin/java.exe
 
-    plugins.apply(fr.brouillard.oss.gradle.plugins.JGitverPlugin::class.java)
-    extensions.configure<fr.brouillard.oss.gradle.plugins.JGitverPluginExtension> {
-        strategy("PATTERN")
-        nonQualifierBranches("main,master")
-        tagVersionPattern("\${v}\${<meta.DIRTY_TEXT}")
-        versionPattern(
-            "\${v}\${<meta.COMMIT_DISTANCE}\${<meta.GIT_SHA1_8}" +
-                    "\${<meta.QUALIFIED_BRANCH_NAME}\${<meta.DIRTY_TEXT}-SNAPSHOT"
-        )
-    }
+if exist "%JAVA_EXE%" goto execute
 
-    tasks.withType<Test> {
-        useJUnitPlatform()
-        testLogging.showExceptions = true
-        reports {
-            junitXml.required.set(true)
-            html.required.set(true)
-        }
-    }
-}
+echo. 1>&2
+echo ERROR: JAVA_HOME is set to an invalid directory: %JAVA_HOME% 1>&2
+echo. 1>&2
+echo Please set the JAVA_HOME variable in your environment to match the 1>&2
+echo location of your Java installation. 1>&2
 
-tasks {
-    val managedVersions by registering {
-        doLast {
-            project.extensions.getByType<DependencyManagementExtension>()
-                .managedVersions
-                .toSortedMap()
-                .map { "${it.key}:${it.value}" }
-                .forEach(::println)
-        }
-    }
-}
+goto fail
+
+:execute
+@rem Setup the command line
+
+set CLASSPATH=
+
+
+@rem Execute Gradle
+"%JAVA_EXE%" %DEFAULT_JVM_OPTS% %JAVA_OPTS% %GRADLE_OPTS% "-Dorg.gradle.appname=%APP_BASE_NAME%" -classpath "%CLASSPATH%" -jar "%APP_HOME%\gradle\wrapper\gradle-wrapper.jar" %*
+
+:end
+@rem End local scope for the variables with windows NT shell
+if %ERRORLEVEL% equ 0 goto mainEnd
+
+:fail
+rem Set variable GRADLE_EXIT_CONSOLE if you need the _script_ return code instead of
+rem the _cmd.exe /c_ return code!
+set EXIT_CODE=%ERRORLEVEL%
+if %EXIT_CODE% equ 0 set EXIT_CODE=1
+if not ""=="%GRADLE_EXIT_CONSOLE%" exit %EXIT_CODE%
+exit /b %EXIT_CODE%
+
+:mainEnd
+if "%OS%"=="Windows_NT" endlocal
+
+:omega
