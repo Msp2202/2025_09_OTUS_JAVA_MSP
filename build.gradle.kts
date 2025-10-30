@@ -1,15 +1,14 @@
 import io.spring.gradle.dependencymanagement.dsl.DependencyManagementExtension
-//import name.remal.gradle_plugins.sonarlint.SonarLintExtension
+import name.remal.gradle_plugins.sonarlint.SonarLintExtension
 import org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
-//import org.gradle.plugins.ide.idea.model.IdeaLanguageLevel
-import kotlin.jvm.java
+import org.gradle.plugins.ide.idea.model.IdeaLanguageLevel
 
 plugins {
-//    id("fr.brouillard.oss.gradle.jgitver")
+    id("fr.brouillard.oss.gradle.jgitver")
     id("io.spring.dependency-management")
-    id("org.springframework.boot") apply false /* Spring Boot плагин (apply false - применяется только в модулях) */
-//    id("name.remal.sonarlint") apply false
-//    id("com.diffplug.spotless") apply false
+    id("org.springframework.boot") apply false
+    id("name.remal.sonarlint") apply false
+    id("com.diffplug.spotless") apply false
 }
 
 allprojects {
@@ -24,6 +23,7 @@ allprojects {
     val protobufBom: String by project
     val guava: String by project
     val jmh: String by project
+    val asm: String by project
 
     apply(plugin = "io.spring.dependency-management")
     dependencyManagement {
@@ -36,6 +36,7 @@ allprojects {
             dependency("com.google.guava:guava:$guava")
             dependency("org.openjdk.jmh:jmh-core:$jmh")
             dependency("org.openjdk.jmh:jmh-generator-annprocess:$jmh")
+            dependency("org.ow2.asm:asm-commons:$asm")
         }
     }
 
@@ -64,26 +65,26 @@ subprojects {
         options.encoding = "UTF-8"
         options.compilerArgs.addAll(listOf("-parameters", "-Xlint:all,-serial,-processing"))
 
-//        dependsOn("spotlessApply")
+        dependsOn("spotlessApply")
     }
-//    apply<name.remal.gradle_plugins.sonarlint.SonarLintPlugin>()
-//    apply<com.diffplug.gradle.spotless.SpotlessPlugin>()
-//    configure<com.diffplug.gradle.spotless.SpotlessExtension> {
-//        java {
-//            palantirJavaFormat("2.63.0")
-//        }
-//    }
+    apply<name.remal.gradle_plugins.sonarlint.SonarLintPlugin>()
+    apply<com.diffplug.gradle.spotless.SpotlessPlugin>()
+    configure<com.diffplug.gradle.spotless.SpotlessExtension> {
+        java {
+            palantirJavaFormat("2.63.0")
+        }
+    }
 
-//    plugins.apply(fr.brouillard.oss.gradle.plugins.JGitverPlugin::class.java)
-//    extensions.configure<fr.brouillard.oss.gradle.plugins.JGitverPluginExtension> {
-//        strategy("PATTERN")
-//        nonQualifierBranches("main,master")
-//        tagVersionPattern("\${v}\${<meta.DIRTY_TEXT}")
-//        versionPattern(
-//            "\${v}\${<meta.COMMIT_DISTANCE}\${<meta.GIT_SHA1_8}" +
-//                    "\${<meta.QUALIFIED_BRANCH_NAME}\${<meta.DIRTY_TEXT}-SNAPSHOT"
-//        )
-//    }
+    plugins.apply(fr.brouillard.oss.gradle.plugins.JGitverPlugin::class.java)
+    extensions.configure<fr.brouillard.oss.gradle.plugins.JGitverPluginExtension> {
+        strategy("PATTERN")
+        nonQualifierBranches("main,master")
+        tagVersionPattern("\${v}\${<meta.DIRTY_TEXT}")
+        versionPattern(
+            "\${v}\${<meta.COMMIT_DISTANCE}\${<meta.GIT_SHA1_8}" +
+                    "\${<meta.QUALIFIED_BRANCH_NAME}\${<meta.DIRTY_TEXT}-SNAPSHOT"
+        )
+    }
 
     tasks.withType<Test> {
         useJUnitPlatform()

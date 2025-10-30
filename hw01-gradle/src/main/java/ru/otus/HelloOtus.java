@@ -1,9 +1,8 @@
 package ru.otus;
 
+import com.google.common.collect.Lists;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.google.common.collect.Lists;
 
 public class HelloOtus {
     public static void main(String[] args) {
