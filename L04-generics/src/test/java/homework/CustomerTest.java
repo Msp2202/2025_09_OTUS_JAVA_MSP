@@ -53,7 +53,7 @@ class CustomerTest {
         assertThat(factDataSecond).isEqualTo(expectedData);
     }
 
-    @Test // надо удалить
+    @Test
     @DisplayName("Сортировка по полю score, итерация по возрастанию")
     void scoreSortingTest() {
         // given
@@ -78,8 +78,8 @@ class CustomerTest {
         Map.Entry<Customer, String> middleScore = customerService.getNext(new Customer(10, "Key", 20));
         // then
         assertThat(middleScore.getKey()).isEqualTo(customer1);
-        middleScore.getKey().setScores(10000);
-        middleScore.getKey().setName("Vasy");
+        middleScore.getKey().setScores(10000); /* Замена Scores */
+        middleScore.getKey().setName("Vasy"); /* Замена имя */
 
         // when
         Map.Entry<Customer, String> biggestScore = customerService.getNext(customer1);
