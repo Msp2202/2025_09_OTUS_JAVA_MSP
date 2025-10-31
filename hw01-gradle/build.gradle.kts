@@ -2,15 +2,8 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
 /* Плагины для модуля */
-plugins {
-    id("java")                              /* Плагин для Java компиляции */
-    id("application")                       /* Плагин для запуска приложений */
+plugins {                    /* Плагин для запуска приложений */
     id("com.github.johnrengelman.shadow")   /* Плагин для создания толстый (fat jar) */
-}
-
-/* Конфигурация плагина application - указываем главный класс */
-application {
-    mainClass.set("ru.otus.HelloOtus")  /* Главный класс приложения */
 }
 
 /* Зависимости проекта */
