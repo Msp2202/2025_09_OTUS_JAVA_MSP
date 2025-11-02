@@ -24,6 +24,7 @@ allprojects {
     val guava: String by project
     val jmh: String by project
     val asm: String by project
+    val lombok: String by project  // Требуется ДОБАВЛЯТЬ и в данное место
 
     apply(plugin = "io.spring.dependency-management")
     dependencyManagement {
@@ -37,6 +38,7 @@ allprojects {
             dependency("org.openjdk.jmh:jmh-core:$jmh")
             dependency("org.openjdk.jmh:jmh-generator-annprocess:$jmh")
             dependency("org.ow2.asm:asm-commons:$asm")
+            dependency("org.projectlombok:lombok:$lombok")
         }
     }
 
