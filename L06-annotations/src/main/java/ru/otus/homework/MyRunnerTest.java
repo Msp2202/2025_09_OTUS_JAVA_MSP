@@ -17,6 +17,7 @@ public class MyRunnerTest {
     }
 
     public static void runTests(String className) {
+        //TODO: В методе происходит много действий. Его надо разбить на методы
         try {
             log.info("🔄 Пытаемся загрузить класс: {}", className);
             Class<?> testClass = Class.forName(className);
@@ -30,6 +31,7 @@ public class MyRunnerTest {
     }
 
     public static void rutTests(Class<?> testClass) {
+        //TODO: Тут еще около 3-4 методов можно вытащить в приватные)
         /** Получаем все методы класса */
         Method[] methods = testClass.getDeclaredMethods();
 
