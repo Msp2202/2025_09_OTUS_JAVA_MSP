@@ -16,5 +16,6 @@ public class CustomerReverseOrder {
 
     public Customer take() {
         return customers.isEmpty() ? null : customers.removeFirst();
+        /** т.к. это стек лучше использовать методы push, pop */
     }
 }
