@@ -1,4 +1,4 @@
-package ru.otus.l12.atm;
+package ru.otus.l12.atm.interfaces;
 
 import java.util.Map;
 
