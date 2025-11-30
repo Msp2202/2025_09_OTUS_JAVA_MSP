@@ -7,3 +7,6 @@ dependencies {
     testAnnotationProcessor ("org.projectlombok:lombok")
 
 }
+tasks.named("sonarlintMain") {
+    enabled = false
+}

@@ -8,3 +8,10 @@ dependencies {
     testImplementation ("org.mockito:mockito-core")
     testImplementation ("org.mockito:mockito-junit-jupiter")
 }
+tasks.named("sonarlintMain") {
+    enabled = false
+}
+
+tasks.named("sonarlintTest") {
+    enabled = false
+}

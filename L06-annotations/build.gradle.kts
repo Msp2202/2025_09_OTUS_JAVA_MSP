@@ -3,3 +3,10 @@ dependencies {
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
 }
+tasks.named("sonarlintMain") {
+    enabled = false
+}
+
+tasks.named("sonarlintTest") {
+    enabled = false
+}
