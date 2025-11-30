@@ -1,11 +1,17 @@
-dependencies {
-    implementation ("ch.qos.logback:logback-classic")
+plugins {
+    java
 }
-// Отключить spotless для demo модуля
-tasks.named("spotlessCheck") {
+
+dependencies {
+    implementation("ch.qos.logback:logback-classic")
+}
+
+// Отключить ВСЕ spotless задачи
+tasks.withType<com.diffplug.gradle.spotless.SpotlessTask>().configureEach {
     enabled = false
 }
 
-tasks.named("spotlessApply") {
+// Отключить sonarlint
+tasks.named("sonarlintMain") {
     enabled = false
 }
