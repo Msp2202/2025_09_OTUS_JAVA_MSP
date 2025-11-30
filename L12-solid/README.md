@@ -54,7 +54,7 @@ Cell - ячейка
     * Создать класс Cell с полями nominal, count и базовыми методами
     * Создать класс ATM который содержит List<Cell>, возможно с использованием ATMFactory
 * Реализовать 3 основных метода:
-    deposit()    // внести
+    deposit()   // внести (номинал и количество пока вручную)
     withdraw()   // снять  
     getBalance() // получить баланс
 * ### Пришел к выводу использовать абстрактный класс и разнесенные Интерфейсы:
@@ -67,3 +67,31 @@ Cell - ячейка
     * Банкоматы с разным функционалом
     * Добавление нового номинала
     * Добавление новой валюты
+
+################
+Реализована следующая структура
+atm>
+Структура папок
+│   AbstractATM.java
+│   DepositOnlyATM.java
+│   SimpleATM.java
+│   WithdrawOnlyATM.java
+│   
+├───exceptions
+│       CellOverflowException.java
+│       InsufficientNotesException.java
+│       WithdrawalException.java
+│       
+├───interfaces
+│       Balance.java
+│       Depositable.java
+│       FullFunctionalATM.java
+│       Withdrawable.java
+│       
+├───models
+│       Cell.java
+│       
+└───services
+ATMValidator.java
+OperationExecutor.java
+WithdrawalCalculator.java
