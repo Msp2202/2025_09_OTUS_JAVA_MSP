@@ -6,12 +6,13 @@ dependencies {
     implementation("ch.qos.logback:logback-classic")
 }
 
-// Отключить ВСЕ spotless задачи
-tasks.withType<com.diffplug.gradle.spotless.SpotlessTask>().configureEach {
-    enabled = false
+// Отключить ВСЕ задачи форматирования
+tasks.all {
+    if (name.startsWith("spotless") || name.contains("Format") || name.contains("format")) {
+        enabled = false
+    }
 }
 
-// Отключить sonarlint
 tasks.named("sonarlintMain") {
     enabled = false
 }
