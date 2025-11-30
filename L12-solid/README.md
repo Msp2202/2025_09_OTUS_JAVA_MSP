@@ -71,9 +71,10 @@ Cell - ячейка
 ################
 Реализована следующая структура
 atm>
-Структура папок
 │   AbstractATM.java
+│   Cell.java
 │   DepositOnlyATM.java
+│   OperationExecutor.java
 │   SimpleATM.java
 │   WithdrawOnlyATM.java
 │   
@@ -88,10 +89,11 @@ atm>
 │       FullFunctionalATM.java
 │       Withdrawable.java
 │       
-├───models
-│       Cell.java
-│       
 └───services
 ATMValidator.java
-OperationExecutor.java
 WithdrawalCalculator.java
+
+1. Изначально Cell планировалось разместить в models/, а OperationExecutor в services/,
+    но это приводило к нарушению инкапсуляции из-за необходимости доступа к package-private методам Cel 
+2. При добавление новой валюты придется существенно менять Cell: исользование мультивалютность → изменение типов данных + архитектуры.
+   При реализации мультивалютность, можно будет вынести в отдельный пакет и пересмотреть архитектуру

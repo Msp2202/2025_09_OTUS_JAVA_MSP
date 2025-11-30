@@ -1,6 +1,4 @@
-package ru.otus.l12.atm.services;
-
-import ru.otus.l12.atm.models.Cell;
+package ru.otus.l12.atm;
 
 import java.util.HashMap;
 import java.util.Map;

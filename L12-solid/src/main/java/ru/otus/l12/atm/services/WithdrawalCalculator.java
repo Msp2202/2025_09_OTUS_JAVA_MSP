@@ -3,9 +3,8 @@ package ru.otus.l12.atm.services;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+import ru.otus.l12.atm.Cell;
 import ru.otus.l12.atm.exceptions.WithdrawalException;
-import ru.otus.l12.atm.models.Cell;
 
 public class WithdrawalCalculator {
     private final ATMValidator validator;
@@ -53,6 +52,6 @@ public class WithdrawalCalculator {
     private List<Cell> getSortedCell(Map<Integer, Cell> cells) {
         return cells.values().stream()
                 .sorted((c1, c2) -> Integer.compare(c2.getNominal(), c1.getNominal()))
-                .collect(Collectors.toList());
+                .toList();
     }
 }

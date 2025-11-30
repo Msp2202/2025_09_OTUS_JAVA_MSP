@@ -3,7 +3,6 @@ package ru.otus.l12.atm;
 import java.util.Map;
 import lombok.AllArgsConstructor;
 import ru.otus.l12.atm.interfaces.Balance;
-import ru.otus.l12.atm.models.Cell;
 
 @AllArgsConstructor
 public abstract class AbstractATM implements Balance {

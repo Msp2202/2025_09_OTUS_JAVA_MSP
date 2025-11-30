@@ -1,14 +1,14 @@
-package ru.otus.l12.atm.models;
+package ru.otus.l12.atm;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import ru.otus.l12.atm.exceptions.CellOverflowException;
 import ru.otus.l12.atm.exceptions.InsufficientNotesException;
 
 /**
  * Класс ячейка отвечает только за хранение одного номинала
  */
-@RequiredArgsConstructor
+@AllArgsConstructor
 @Getter
 public class Cell {
     private final int nominal;

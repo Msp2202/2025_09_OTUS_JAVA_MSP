@@ -1,8 +1,8 @@
 package ru.otus.l12.atm.services;
 
 import java.util.Map;
+import ru.otus.l12.atm.Cell;
 import ru.otus.l12.atm.exceptions.CellOverflowException;
-import ru.otus.l12.atm.models.Cell;
 
 public class ATMValidator {
 

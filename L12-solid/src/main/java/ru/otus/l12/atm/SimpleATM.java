@@ -3,9 +3,7 @@ package ru.otus.l12.atm;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import ru.otus.l12.atm.interfaces.FullFunctionalATM;
-import ru.otus.l12.atm.models.Cell;
 import ru.otus.l12.atm.services.ATMValidator;
-import ru.otus.l12.atm.services.OperationExecutor;
 import ru.otus.l12.atm.services.WithdrawalCalculator;
 
 /**
@@ -17,8 +15,11 @@ public class SimpleATM extends AbstractATM implements FullFunctionalATM {
     private final ATMValidator validator;
     private final OperationExecutor operation;
 
-    public SimpleATM(Map<Integer, Cell> cells,
-                     WithdrawalCalculator calculator, ATMValidator validator, OperationExecutor operation) {
+    public SimpleATM(
+            Map<Integer, Cell> cells,
+            WithdrawalCalculator calculator,
+            ATMValidator validator,
+            OperationExecutor operation) {
         super(cells);
         this.calculator = calculator;
         this.validator = validator;
@@ -41,8 +42,8 @@ public class SimpleATM extends AbstractATM implements FullFunctionalATM {
     @Override
     public Map<Integer, Integer> withdraw(int amount) {
         if (amount > getBalance()) {
-            throw new IllegalStateException("Недостаточно средств на счете. " +
-                    "Запрошено: " + amount + ", доступно: " + getBalance());
+            throw new IllegalStateException(
+                    "Недостаточно средств на счете. " + "Запрошено: " + amount + ", доступно: " + getBalance());
         }
         Map<Integer, Integer> withdrawalPlan = calculator.calculateWithdrawal(amount, cells);
         operation.executeWithdrawal(withdrawalPlan);
