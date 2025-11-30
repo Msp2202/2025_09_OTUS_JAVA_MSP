@@ -1,6 +1,11 @@
 dependencies {
     implementation ("ch.qos.logback:logback-classic")
 }
-tasks.named("sonarlintMain") {
+// Отключить spotless для demo модуля
+tasks.named("spotlessCheck") {
+    enabled = false
+}
+
+tasks.named("spotlessApply") {
     enabled = false
 }
