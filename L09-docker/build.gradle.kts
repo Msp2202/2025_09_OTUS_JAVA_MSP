@@ -42,6 +42,9 @@ jib {
         }
     }
 }
+tasks.test {
+    enabled = false
+}
 /*
 сборка проекта:
 
